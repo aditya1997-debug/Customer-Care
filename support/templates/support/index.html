@@ -1,0 +1,28 @@
+{% extends "support/layout.html" %}
+{% block body %}
+
+<h5>Submitted Complaints</h5>
+{% if requests %}
+    {% for request in requests %}
+        <div class="request card mb-3">
+            <div class="card-body">
+                <h4 class="card-title">{{ request.customer }}</h4>
+                <p class="card-text">Request Type: {{ request.request_type }}</p>
+                <p class="card-text">Details: {{ request.details }}</p>
+                <p class="card-text">Status: {{ request.status }}</p>
+                <p class="card-text">Submitted Date: {{ request.submitted_at }}</p>
+                <p class="card-text">Resolved Date: {{ request.resolved_at | default:"Not resolved yet" }}</p>
+                
+                
+                {% if request.attachment %}
+                    <p class="card-text">Attachment: <a href="{{ request.attachment.url }}" target="_blank">{{ request.attachment }}</a></p>
+                {% endif %}
+                <a href="{% url 'support:edit_request' request.pk %}" class="btn-btn dark">View Complaint</a>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <h3>No tickets</h3>
+{% endif %}
+
+{% endblock %}

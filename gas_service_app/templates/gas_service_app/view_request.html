@@ -1,0 +1,38 @@
+{% extends "gas_service_app/layout.html" %}
+{% block body %}
+  <div class="request card mb-3">
+      <div class="card-body">
+          <h3 class="card-title">{{ request.request_type }}</h3>
+          <p class="card-text">Details: {{ request.details }}</p>
+          <p class="card-text">Status: {{ request.status }}</p>
+          <p class="card-text">Submitted Date: {{ request.submitted_at }}</p>
+          <p class="card-text">Resolved Date: {{ request.resolved_at | default:"Not resolved yet" }}</p>
+          {% if request.attachment %}
+              <p class="card-text">Attachment: <a href="{{ request.attachment.url }}" target="_blank">{{ request.attachment | default:"No Attachment" }}</a></p>
+          {% endif %}
+      </div>
+  </div>
+
+  <div>
+    <form method="POST" >
+      {% csrf_token %}
+      <p id="content">{{ message_form.content }}</p>
+      <button type="submit" onclick="message( {{ request.id }}, event )" class="btn btn-dark">Message</button>
+    </form>
+  </div>
+
+  <br>
+  <h5>All messages</h5>
+  <div class="card">
+    {% for message in all_messages_related_to_complaint %}
+      <div class="card-header">
+        <p>{{message.sender | upper}} &nbsp;<small>{{ message.timestamp }}</small></p>
+      </div>
+      <div class="card-body">
+        <p> {{message.content}} </p> 
+      </div>
+      <br>
+    {% endfor %}
+  </div>
+
+{% endblock %}

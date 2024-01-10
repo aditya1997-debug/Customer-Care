@@ -1,0 +1,21 @@
+{% extends "gas_service_app/layout.html" %}
+{% block body %}
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+
+    <h2>Submit Service Request</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="request_type">Request Type:</label>
+        <input type="text" name="request_type" id="request_type" required><br>
+        <label for="details">Details:</label>
+        <textarea name="details" id="details" required></textarea><br>
+        <label for="attachment">Attachment:</label>
+        <input type="file" name="attachment" id="attachment"><br>
+        <button type="submit">Submit Request</button>
+    </form>
+    
+
+{% endblock %}

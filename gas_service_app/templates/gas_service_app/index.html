@@ -1,0 +1,36 @@
+{% extends "gas_service_app/layout.html" %}
+
+{% block body %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible">
+                <a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    
+    {% if is_registered %}
+        <form method="post" enctype="multipart/form-data" action="{% url 'first:submit_request' %}" id="myForm">
+            <h2>Submit complaint</h2>
+            {% csrf_token %}
+            <p>Request Type: {{ submit_request.request_type }} </p>
+            <p>Describe what problem you are facing in detail: {{ submit_request.details }} </p>
+            <p name="picture">
+                <span style="color: rgb(192, 19, 19);"> *Only JPEGs and PNGs are allowed</span> 
+                {{submit_request.attachment }} 
+            </p>
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+        </form>
+    {% else %}
+        <form action="{% url 'first:customer' %}" method="POST">
+            {% csrf_token %}
+            {{ customerForm.as_p }}
+            <button type="submit" class="btn btn-outline-primary btn-sm">Become our customer</button>
+        </form>
+    {% endif %}
+
+
+{% endblock %}

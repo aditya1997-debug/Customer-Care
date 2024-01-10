@@ -1,0 +1,24 @@
+{% extends "gas_service_app/layout.html" %}
+{% block body %}
+
+<h5>Submitted Requests</h5>
+{% for request in requests %}
+  <div class="request card mb-3">
+      <div class="card-body">
+          <h3 class="card-title">{{ request.request_type }}</h3>
+          <p class="card-text">Details: {{ request.details }}</p>
+          <p class="card-text">Status: {{ request.status }}</p>
+          <p class="card-text">Submitted Date: {{ request.submitted_at }}</p>
+          <p class="card-text">Resolved Date: {{ request.resolved_at | default:"Not resolved yet" }}</p>
+
+          {% if request.attachment %}
+                <p class="card-text">Attachment: <a href="{{ request.attachment.url }}" target="_blank">{{ request.attachment.name }}</a></p>
+          {% endif %}
+          <!-- <a href="{% url 'first:view_request' request.pk %}" class="btn btn-dark"> View </a> -->
+          <a onclick="view_request( {{ request.id }} )" class="btn btn-dark"> View </a>
+      </div>
+  </div>
+{% endfor %}
+
+
+{% endblock %}
